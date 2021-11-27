@@ -17,5 +17,7 @@ degree = function(A.mat, type = 'undirected', dir = F){
     c = rowSums(in.mat)
   }
 
-  return(c)
+  # standardize degree centrality
+  c.degree.std = c/max(c)
+  return(c.degree.std)
 }
