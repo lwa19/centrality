@@ -1,6 +1,6 @@
 # closeness centrality computation (NEED TO CLEAN UP PRINTS)
 # "geodesic" distances is calculated by the Dijkstra's Algorithm
-closeness = function(A.mat, weight = F){
+closeness = function(A.mat, weight = T){
   # make graph binary if we don't care about weights:
   if (!weight) {
     A.mat = ifelse(A.mat != 0, 1, 0)
@@ -25,7 +25,13 @@ closeness = function(A.mat, weight = F){
   }
 
   # compute closeness centrality:
-  di = sapply(1:n, FUN = dijkstra, A.mat = A.mat)
-  c.closeness.std = 1/di
+  # di = sapply(1:n, FUN = dijkstra, A.mat = A.mat)
+  mean.dist = rep(NA, n)
+  for (id in 1:n){
+    mean.dist[id] = mean(dijkstra(A.mat, id)$dist)
+  }
+  print('mean.dist')
+  print(mean.dist)
+  c.closeness.std = 1/mean.dist
   return(c.closeness.std)
 }
