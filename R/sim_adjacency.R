@@ -1,6 +1,6 @@
 # Simulate an adjacency matrix with no self loops
 sim_adjacency = function(n, mode = "undirected", weight = NULL){
-  A.entries = n*n
+  A.entries = n * n
 
   if (is.null(weight)){
     A.nums = sample(c(0,1), replace=TRUE, size=A.entries)
@@ -17,8 +17,9 @@ sim_adjacency = function(n, mode = "undirected", weight = NULL){
   diag(A.mat) = 0
 
   if (mode == 'undirected'){
+    A.mat[lower.tri(A.mat)] = t(A.mat)[lower.tri(A.mat)]
     A.mat = abs(A.mat)
   }
-
   return(A.mat)
 }
+

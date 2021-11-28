@@ -30,8 +30,6 @@ closeness = function(A.mat, weight = T){
   for (id in 1:n){
     mean.dist[id] = mean(dijkstra(A.mat, id)$dist)
   }
-  print('mean.dist')
-  print(mean.dist)
   c.closeness.std = 1/mean.dist
   return(c.closeness.std)
 }
