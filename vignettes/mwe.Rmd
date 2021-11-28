@@ -1,0 +1,60 @@
+---
+title: "A minimal example"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{mwe}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+This vignette demonstrates how to use `centrality` on a small, undirected graph with unweighted edges and no self-loops. The simulated graph describes the connectivity of 10 nodes, described by an adjacency matrix $A_{n\times n}$ ($n=10$). 
+We want to evaluate how influential each node is through computations of its centrality measures, in particular the [degree centrality](https://en.wikipedia.org/wiki/Centrality#Degree_centrality), [closeness centrality](https://en.wikipedia.org/wiki/Closeness_centrality), and [betweeness centrality](https://en.wikipedia.org/wiki/Betweenness_centrality) (or eigenvector centrality, depending on which one I manage to debug. The eigenvector centrality seems less likely though). 
+
+
+```{r setup}
+library(centrality)
+library('RColorBrewer')
+library(igraph)
+library(gplots)
+set.seed(1)
+```
+
+# Data Simulation: 
+
+```{r}
+n = 10
+A.mat = sim_adjacency(n)
+A.graph = graph_from_adjacency_matrix(A.mat, mode = "undirected")
+graph <- simplify(A.graph, remove.multiple = F)
+```
+
+
+# Network Visualization
+
+```{r}
+colors <- rev(rep(brewer.pal(9, "Blues"), each = 14))
+colors = rgb((colorRamp(c("blue", "red"))(V(graph)$order))/255)
+
+heatmap(A.mat, revC = F)
+heatmap.2(A.mat, dendrogram='none', Rowv=FALSE, Colv=FALSE, trace='none', 
+          key = F, col = colors)
+
+# plot degree centrality
+set.seed(1)
+# V(graph)$order = igraph.degree.cen$res/max(igraph.degree.cen$res)
+# V(graph)$color = rgb((colorRamp(c("blue", "red"))(V(graph)$order))/255)
+# V(graph)$color = colors[V(graph)$order]
+plot(graph, vertex.label=1:10, vertex.size=15, main = "Simulated Network")
+
+```
+
+
+

@@ -1,5 +1,6 @@
 # test file
 library(igraph)
+library(usethis)
 A.unw = ifelse(A.mat > 0, 1, 0)
 graph.A = graph_from_adjacency_matrix(A.mat, mode = "undirected")
 graph.C = graph_from_adjacency_matrix(C.mat, mode = "undirected")
