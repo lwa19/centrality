@@ -1,4 +1,17 @@
-# closeness centrality computation (NEED TO CLEAN UP PRINTS)
+#' Closeness Centrality Computation
+#'
+#' `closeness` calculates the closeness centrality of the network
+#'
+#' @param A.mat An n x n adjacency matrix.
+#' @param weight A boolean indicating if edges are weighted
+#' @return Returns the value of `c.closeness.std`
+#' @examples
+#'
+#' myfunction(1) # returns 1
+#'
+#' @export
+
+# NEED WORK TO FIT NEW DIJKSTRA'S ALGO
 # "geodesic" distances is calculated by the Dijkstra's Algorithm
 closeness = function(A.mat, weight = T){
   # make graph binary if we don't care about weights:

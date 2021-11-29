@@ -21,15 +21,15 @@ degree = function(A.mat, type = 'undirected'){
 
   # calculate the diagonal of degree matrix (c) according to type specified:
   if (type == 'undirected'){
-    c = rowSums(A.mat)
+    c = colSums(A.mat)
   } else if (type == 'outdegree'){
     out.mat = A.mat
     out.mat[lower.tri(A.mat, diag = T)] <- 0
-    c = rowSums(out.mat)
+    c = colSums(out.mat)
   } else {
     in.mat = A.mat
     in.mat[upper.tri(A.mat, diag = T)] <- 0
-    c = rowSums(in.mat)
+    c = colSums(in.mat)
   }
 
   # standardize degree centrality
