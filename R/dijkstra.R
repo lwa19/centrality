@@ -1,6 +1,22 @@
-# Dijkstra's Algorithm
+#' Dijkstra's Algorithm
+#'
+#' `dijkstra` calculates the geodesics between two nodes
+#'
+#' @param A.mat An n x n adjacency matrix.
+#' @param src A length 1 vector indicating the start node
+#' @param snk A length 1 vector indicating the end node
+#'
+#' @return Returns a list of `dist` and `paths`
+#' @examples
+#'
+#' myfunction(1) # returns 1
+#'
+#' @export
+
+# Dijkstra's Algorithm (NEED WORK)
 # (used for geodesic distance calculation in closeness.R and between.R)
-dijkstra = function(A.mat, src){
+# Maybe it's better to do src-snk instead?
+dijkstra = function(A.mat, src, snk){
   n = dim(A.mat)[2]
   vertex = 1:n
   dist = rep(Inf, n)
