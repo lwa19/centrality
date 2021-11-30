@@ -1,4 +1,9 @@
 # centrality
+
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/lwa19/centrality/workflows/R-CMD-check/badge.svg)](https://github.com/lwa19/centrality/actions)
+<!-- badges: end -->
+
 Compute network centrality without generating a graph object
 
 
