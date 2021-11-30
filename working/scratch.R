@@ -20,6 +20,10 @@ A.clo = closeness(A.mat)
 A.clo == A.clo.igraph.std
 
 # eigenvector centrality
-C.eig.igraph = centr_eigen(graph.C, scale = T)$vector
-C.eig = eigenvect(A.mat)
+A.eig.igraph = centr_eigen(graph.A)$vector
+plot(A.eig.igraph, main = "igraph")
+A.eig = eigenvect(A.mat)
+plot(A.eig, main = "eigenvect")
+
+
 C.eig2 = eigenvect2(A.mat)

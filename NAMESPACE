@@ -3,5 +3,6 @@
 export(closeness)
 export(degree)
 export(dijkstra)
+export(eigenvect)
 export(sim_adjacency)
 export(sim_deg_conn)
