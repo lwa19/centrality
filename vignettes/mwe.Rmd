@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 
 This vignette demonstrates how to use `centrality` on a small, undirected graph with unweighted edges and no self-loops. The simulated graph describes the connectivity of 10 nodes, described by an adjacency matrix $A_{n\times n}$ ($n=10$). 
-We evaluate the influence of each node in the netowrk through computations of its centrality measures, in particular the [degree centrality](https://en.wikipedia.org/wiki/Centrality#Degree_centrality), [closeness centrality](https://en.wikipedia.org/wiki/Closeness_centrality), and [betweeness centrality](https://en.wikipedia.org/wiki/Betweenness_centrality). 
+We evaluate the influence of each node in the netowrk through computations of its centrality measures, in particular the [degree centrality](https://en.wikipedia.org/wiki/Centrality#Degree_centrality), [closeness centrality](https://en.wikipedia.org/wiki/Closeness_centrality), [betweeness centrality](https://en.wikipedia.org/wiki/Betweenness_centrality), and [eigenvector centrality](https://en.wikipedia.org/wiki/Eigenvector_centrality). 
 
 
 ```{r setup, message=F}
@@ -94,16 +94,36 @@ After computing the closeness centrality measure, we can overlay it on the graph
 
 ```{r, fig.width=6, fig.height=4}
 # calculate closeness centrality:
-c.deg.std = centrality::closeness(A.mat) 
+c.clo.std = centrality::closeness(A.mat) 
 
 # plot degree centrality
 set.seed(1)
 par(mar = c(2, 2, 2, 5.1))
-V(graph)$order = c.deg.std
+V(graph)$order = c.clo.std
 V(graph)$color = rgb((colorRamp(c("blue", "red"))(V(graph)$order))/255)
 plot(graph, vertex.label=1:n, vertex.size=15, main = "Closeness Centrality")
 # legend(1,1,fill = V(graph)$color, legend = V(graph)$order)
-image.plot(legend.only=T, zlim=range(c.deg.std), col=sort(V(graph)$color),
+image.plot(legend.only=T, zlim=range(c.clo.std), col=sort(V(graph)$color),
+           legend.mar = 4, legend.cex = 0.5)
+```
+
+
+### Calculate and visualize eigenvector centrality: 
+
+After computing the eigenvector centrality measure, we can overlay it on the graph like the following, with points with higher centrality score (higher influence) in a brighter color. 
+
+```{r, fig.width=6, fig.height=4}
+# calculate closeness centrality:
+c.eig.std = centrality::eigenvect(A.mat) 
+
+# plot degree centrality
+set.seed(1)
+par(mar = c(2, 2, 2, 5.1))
+V(graph)$order = c.eig.std
+V(graph)$color = rgb((colorRamp(c("blue", "red"))(V(graph)$order))/255)
+plot(graph, vertex.label=1:n, vertex.size=15, main = "Closeness Centrality")
+# legend(1,1,fill = V(graph)$color, legend = V(graph)$order)
+image.plot(legend.only=T, zlim=range(c.eig.std), col=sort(V(graph)$color),
            legend.mar = 4, legend.cex = 0.5)
 ```
 
