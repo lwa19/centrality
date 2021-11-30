@@ -16,10 +16,10 @@ knitr::opts_chunk$set(
 
 
 This vignette demonstrates how to use `centrality` on a small, undirected graph with unweighted edges and no self-loops. The simulated graph describes the connectivity of 10 nodes, described by an adjacency matrix $A_{n\times n}$ ($n=10$). 
-We want to evaluate how influential each node is through computations of its centrality measures, in particular the [degree centrality](https://en.wikipedia.org/wiki/Centrality#Degree_centrality), [closeness centrality](https://en.wikipedia.org/wiki/Closeness_centrality), and [betweeness centrality](https://en.wikipedia.org/wiki/Betweenness_centrality) (or eigenvector centrality, depending on which one I manage to debug. The eigenvector centrality seems less likely though). 
+We evaluate the influence of each node in the netowrk through computations of its centrality measures, in particular the [degree centrality](https://en.wikipedia.org/wiki/Centrality#Degree_centrality), [closeness centrality](https://en.wikipedia.org/wiki/Closeness_centrality), and [betweeness centrality](https://en.wikipedia.org/wiki/Betweenness_centrality). 
 
 
-```{r setup}
+```{r setup, message=F}
 library(centrality)
 library('RColorBrewer')
 library(igraph)
@@ -29,34 +29,40 @@ library(fields)
 set.seed(1)
 ```
 
-# Data Simulation: 
+## Data Simulation: 
+
+Simulate a simple adjacency matrix with unweighted, undirected edges with $n = 10$. 
 
 ```{r}
 n = 10
-# A.mat = sim_deg_conn(n, 0.1)
 A.mat = sim_adjacency(n)
 A.graph = graph_from_adjacency_matrix(A.mat, mode = "undirected")
 graph <- simplify(A.graph, remove.multiple = F)
 ```
 
 
-# Network Visualization
+## Centrality Computation
 
-## Adjacency Matrix
+### Adjacency Matrix
+
+Visualize the simulated adjacency matrix. Note that diagonal is highlighted here for better visualization; the graph does not contain self-loops. 
 
 ```{r, fig.width=4, fig.height=4}
 # plot adjacency matrix
-par(cex.main=0.8)
+par(cex.main=0.8, par(mar = c(1, 2, 2, 6)))
 colors = rep(brewer.pal(9, "Blues"), each = 3)[1:17]
 plot.A.mat = A.mat + diag(rep(2, 10))    # emphasize diagonal in plot
 adj.mat = heatmap.2(plot.A.mat, dendrogram='none', Rowv=FALSE, Colv=FALSE, trace='none', 
           key = F, col = as.vector(colors), main = "Adjacency Matrix", 
           colsep = 1:10, rowsep = 1:10, sepcolor = "grey", sepwidth=c(0.005,0.005))
-image.plot(legend.only=T, zlim=range(0,1), col=colors)
+image.plot(legend.only=T, zlim=range(0,1), col=colors, legend.mar = 3, 
+           legend.shrink = 0.5, legend.width = 0.5, legend.cex = 0.3)
 ```
 
 
-## Network Visualization
+### Network Visualization
+
+The simulated adjacency matrix can be visualized as the following graph: 
 
 ```{r, fig.width=4, fig.height=4}
 # plot network
@@ -64,33 +70,41 @@ set.seed(1)
 network = plot(graph, vertex.label=1:n, vertex.size=15, main = "Simulated Network")
 ```
 
-## Calculate and visualize degree centrality: 
+### Calculate and visualize degree centrality: 
 
-```{r}
+After computing the degree centrality measure, we can overlay it on the graph like the following, with points with higher centrality score (higher influence) in a brighter color. 
+
+```{r, fig.width=6, fig.height=4}
 # calculate degree centrality:
-c.deg.std = degree(A.mat) 
+c.deg.std = centrality::degree(A.mat) 
 
 # plot degree centrality
 set.seed(1)
+par(mar = c(2, 2, 2, 5.1))
 V(graph)$order = c.deg.std
 V(graph)$color = rgb((colorRamp(c("blue", "red"))(V(graph)$order))/255)
 plot(graph, vertex.label=1:n, vertex.size=15, main = "Degree Centrality")
-image.plot(legend.only=T, zlim=range(c.deg.std), col=sort(V(graph)$color))
+image.plot(legend.only=T, zlim=range(c.deg.std), col=sort(V(graph)$color), 
+           legend.mar = 4, legend.cex = 0.5)
 ```
 
-## Calculate and visualize closeness centrality: 
+### Calculate and visualize closeness centrality: 
 
-```{r}
+After computing the closeness centrality measure, we can overlay it on the graph like the following, with points with higher centrality score (higher influence) in a brighter color. 
+
+```{r, fig.width=6, fig.height=4}
 # calculate closeness centrality:
-c.deg.std = closeness(A.mat) 
+c.deg.std = centrality::closeness(A.mat) 
 
 # plot degree centrality
 set.seed(1)
+par(mar = c(2, 2, 2, 5.1))
 V(graph)$order = c.deg.std
 V(graph)$color = rgb((colorRamp(c("blue", "red"))(V(graph)$order))/255)
 plot(graph, vertex.label=1:n, vertex.size=15, main = "Closeness Centrality")
 # legend(1,1,fill = V(graph)$color, legend = V(graph)$order)
-image.plot(legend.only=T, zlim=range(c.deg.std), col=sort(V(graph)$color))
+image.plot(legend.only=T, zlim=range(c.deg.std), col=sort(V(graph)$color),
+           legend.mar = 4, legend.cex = 0.5)
 ```
 
 

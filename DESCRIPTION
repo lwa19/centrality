@@ -2,19 +2,19 @@ Package: centrality
 Type: Package
 Title: Compute network centrality without generating a graph object
 Version: 0.1.0
-Author: Leah Wang
-Maintainer: Leah Wang
+Authors@R: person("Leah", "Wang", email = "leahwang19@gmail.com", 
+    role = c("aut", "cre"))
 Description: 
-    This package aims to be a light-weight alternative to the widely \
-    used network analysis package "igraph" in calculating standardized \
-    centrality measures from the adjacency matrix. The benefit of \
-    thispackage is that it circumvents the excessive steps of \
-    converting the adjacency matrix into a graph, etc., since that \
-    information is not necessary for centrality measure computation \
-    and would simply be a waste of computational resources in this context. \
-    The drawback of this package is that the functionality is not as \
-    complete as that of the package `igraph`, with certain inherent \
-    assumptions such as no self-loops exist. It is also only capable \
+    This package aims to be a light-weight alternative to the widely 
+    used network analysis package "igraph" in calculating standardized 
+    centrality measures from the adjacency matrix. The benefit of 
+    thispackage is that it circumvents the excessive steps of 
+    converting the adjacency matrix into a graph, etc., since that 
+    information is not necessary for centrality measure computation 
+    and would simply be a waste of computational resources in this context. 
+    The drawback of this package is that the functionality is not as 
+    complete as that of the package `igraph`, with certain inherent 
+    assumptions such as no self-loops exist. It is also only capable 
     of calculating degree and closeness centrality measures. 
 License: GLP-2
 Encoding: UTF-8
