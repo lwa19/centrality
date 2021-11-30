@@ -2,7 +2,9 @@
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/lwa19/centrality/workflows/R-CMD-check/badge.svg)](https://github.com/lwa19/centrality/actions)
+[![test-coverage](https://github.com/lwa19/centrality/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/lwa19/centrality/actions/workflows/test-coverage.yaml)
 <!-- badges: end -->
+
 
 Compute network centrality without generating a graph object
 
