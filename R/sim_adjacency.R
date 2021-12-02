@@ -12,7 +12,7 @@
 #' @return Returns an n x n adjacency matrix `A.mat`
 #' @examples
 #' sim_adjacency(10, mode = "undirected")   # generates a 10x10 symmetric matrix
-#' with edges 1 and non-edges 0
+#' with edge weights 1
 #'
 #' sim_adjacency(10, mode = "directed", weight = c(10, 20))  # generates
 #' a 10x10 matrix (not necessarily symmetric) with edge weights from a uniform
