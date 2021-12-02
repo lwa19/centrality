@@ -11,12 +11,8 @@
 #' edge weights. Default is `NULL`, indicating unweighted edges.
 #' @return Returns an n x n adjacency matrix `A.mat`
 #' @examples
-#' sim_adjacency(10, mode = "undirected")   # generates a 10x10 symmetric matrix
-#' with edge weights 1
-#'
-#' sim_adjacency(10, mode = "directed", weight = c(10, 20))  # generates
-#' a 10x10 matrix (not necessarily symmetric) with edge weights from a uniform
-#' (10, 20) distribution.
+#' sim_adjacency(10, mode = "undirected")  # all edge weights 1
+#' sim_adjacency(10, mode = "directed", weight = c(10, 20))
 #'
 #' @export
 
@@ -48,7 +44,8 @@ sim_adjacency = function(n, mode = "undirected", weight = NULL){
 
 #' Adjacency matrix simulation -- varying connectedness
 #'
-#' `sim_deg_conn` creates a randomly generated adjacency matrix with different degree of connectedness
+#' `sim_deg_conn` creates a randomly generated adjacency matrix
+#' with different degree of connectedness
 #'
 #' @param n Positive integer, number of nodes in the network
 #' @param p Positive double, probability of a node having a connection with another.
@@ -56,11 +53,8 @@ sim_adjacency = function(n, mode = "undirected", weight = NULL){
 #' @return Returns an n x n adjacency matrix `A.mat`
 #' @import stats
 #' @examples
-#' sim_deg_conn(10) # generates a 10x10 symmetric matrix; each entry has 50% chance
-#' of being 0 and 50% chance of being 1
-#'
-#' sim_deg_conn(10, p = 0.1) # generates a 10x10 symmetric matrix, each entry
-#' has 90% chance of being 0 and 10% chance of being 1
+#' sim_deg_conn(10) # edge exists between 2 nodes with probability 0.5
+#' sim_deg_conn(10, p = 0.1) # edge exists between 2 nodes with probability 0.1
 #'
 #' @export
 
