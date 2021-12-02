@@ -19,7 +19,10 @@ Returns an n x n adjacency matrix \code{A.mat}
 \code{sim_deg_conn} creates a randomly generated adjacency matrix with different degree of connectedness
 }
 \examples{
+sim_deg_conn(10) # generates a 10x10 symmetric matrix; each entry has 50\% chance
+of being 0 and 50\% chance of being 1
 
-myfunction(1) # returns 1
+sim_deg_conn(10, p = 0.1) # generates a 10x10 symmetric matrix, each entry
+has 90\% chance of being 0 and 10\% chance of being 1
 
 }
