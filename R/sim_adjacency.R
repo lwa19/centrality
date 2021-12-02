@@ -1,4 +1,5 @@
 # All the simulation functions you will ever need
+library(stats)
 
 #' Adjacency matrix simulation
 #'
@@ -12,8 +13,12 @@
 #' edge weights. Default is `NULL`, indicating unweighted edges.
 #' @return Returns an n x n adjacency matrix `A.mat`
 #' @examples
+#' sim_adjacency(10, mode = "undirected")   # generates a 10x10 symmetric
+#' matrix with only 0 and 1s
 #'
-#' myfunction(1) # returns 1
+#' sim_adjacency(10, mode = "directed", weight = c(10, 20))  # generates
+#' a 10x10 matrix (not necessarily symmetric) with edge weights from a uniform
+#' (10, 20) distribution.
 #'
 #' @export
 
@@ -52,8 +57,11 @@ sim_adjacency = function(n, mode = "undirected", weight = NULL){
 #' Default is `0.5`.
 #' @return Returns an n x n adjacency matrix `A.mat`
 #' @examples
+#' sim_deg_conn(10) # generates a 10x10 symmetric matrix; each entry has 50% chance
+#' of being 0 and 50% chance of being 1
 #'
-#' myfunction(1) # returns 1
+#' sim_deg_conn(10, p = 0.1) # generates a 10x10 symmetric matrix, each entry
+#' has 90% chance of being 0 and 10% chance of being 1
 #'
 #' @export
 
