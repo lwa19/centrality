@@ -25,7 +25,8 @@ Imports:
     igraph,
     gplots,
     knitr,
-    fields
+    fields, 
+    stats
 Suggests: 
     knitr,
     rmarkdown
