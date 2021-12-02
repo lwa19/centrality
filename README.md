@@ -21,17 +21,21 @@ The concept of centrality is motivated by identification of “central” or “
 
 ## Purpose of this package: 
 
-The most commonly used package in network analysis in R is igraph (link), where one must first construct a graph from the adjacency matrix before computing centrality measures. While this is very useful, graph conversion can be time-consuming and excessive when our only goal is to compute network centrality. Therefore, I propose a new light-weight alternative: the *centrality* package, aimed solely at calculating network centrality from adjacency matrices. The goals are divided into the following: 
+The most commonly used package in network analysis in R is [igraph](https://igraph.org/r/), where one must first construct a graph from the adjacency matrix before computing centrality measures. While this is very useful, converting data into graph objects can be excessive and error-prone when our only goal is to compute network centrality. Therefore, I propose a new light-weight alternative: the *centrality* package, aimed solely at calculating network centrality from adjacency matrices. The goals are divided into the following: 
 
-1. Implement 4 types of network centrality measures (degree, closeness, betweenness, and eigenvector) on unweighted, undirected graphs, given the adjacency matrix. 
-2. Implement unit tests for these centrality measures (by comparing to the output from **igraph** package). 
-3. Implement network centrality measures 
-4. Brief analysis to highlight the improvements and drawbacks of the new package in terms of centrality measurement computation (time complexity, memory usage, etc.)
+1. Implement 3 out of the 4 types of standardized network centrality measures (degree, closeness, and eigenvector) on networks without self-loops, given the adjacency matrix. 
+2. Implement unit tests for these centrality measures (by comparing **centrality** package output to the **igraph** package output). 
+3. Brief analysis to highlight the improvements and drawbacks of the new package in terms of centrality measurement computation. 
+
+Note that I decided not to include betweeness centrality here simply due to the complexity of the algorithm and the time restriction on this assignment. However, I do believe it would be a fun challenge to tackle in the future. 
 
 
 ## Installation Guide
 
-devtools command blah blah. 
+```
+library(devtools)
+install_github("lwa19/centrality")
+```
 
 
 ## Acknowledgement and References:
