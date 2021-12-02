@@ -1,10 +1,8 @@
-# All the simulation functions you will ever need
-library(stats)
-
 #' Adjacency matrix simulation
 #'
 #' `sim_adjacency` creates a randomly generated adjacency matrix
 #'
+#' @import stats
 #' @param n Positive integer, number of nodes in the network
 #' @param mode A character string, indicating directedness of the matrix.
 #' Default is "undirected", where edges do not have direction (therefore adjacency
@@ -13,8 +11,8 @@ library(stats)
 #' edge weights. Default is `NULL`, indicating unweighted edges.
 #' @return Returns an n x n adjacency matrix `A.mat`
 #' @examples
-#' sim_adjacency(10, mode = "undirected")   # generates a 10x10 symmetric
-#' matrix with only 0 and 1s
+#' sim_adjacency(10, mode = "undirected")   # generates a 10x10 symmetric matrix
+#' with edges 1 and non-edges 0
 #'
 #' sim_adjacency(10, mode = "directed", weight = c(10, 20))  # generates
 #' a 10x10 matrix (not necessarily symmetric) with edge weights from a uniform
@@ -56,6 +54,7 @@ sim_adjacency = function(n, mode = "undirected", weight = NULL){
 #' @param p Positive double, probability of a node having a connection with another.
 #' Default is `0.5`.
 #' @return Returns an n x n adjacency matrix `A.mat`
+#' @import stats
 #' @examples
 #' sim_deg_conn(10) # generates a 10x10 symmetric matrix; each entry has 50% chance
 #' of being 0 and 50% chance of being 1
