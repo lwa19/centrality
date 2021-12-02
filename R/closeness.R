@@ -6,8 +6,8 @@
 #' @param weight A boolean indicating if edges are weighted
 #' @return Returns the value of `c.closeness.std`
 #' @examples
-#'
-#' myfunction(1) # returns 1
+#' A.mat = sim_adjacency(10)
+#' closeness(A.mat)
 #'
 #' @export
 

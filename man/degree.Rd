@@ -20,7 +20,7 @@ Returns the value of \code{c.degree.std}
 \code{degree} calculates the degree centrality of the network
 }
 \examples{
-
-myfunction(1) # returns 1
+A.mat = sim_adjacency(10)
+degree(A.mat)
 
 }

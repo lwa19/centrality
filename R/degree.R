@@ -9,8 +9,8 @@
 #'
 #' @return Returns the value of `c.degree.std`
 #' @examples
-#'
-#' myfunction(1) # returns 1
+#' A.mat = sim_adjacency(10)
+#' degree(A.mat)
 #'
 #' @export
 
