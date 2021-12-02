@@ -16,13 +16,11 @@ Default is \code{0.5}.}
 Returns an n x n adjacency matrix \code{A.mat}
 }
 \description{
-\code{sim_deg_conn} creates a randomly generated adjacency matrix with different degree of connectedness
+\code{sim_deg_conn} creates a randomly generated adjacency matrix
+with different degree of connectedness
 }
 \examples{
-sim_deg_conn(10) # generates a 10x10 symmetric matrix; each entry has 50\% chance
-of being 0 and 50\% chance of being 1
-
-sim_deg_conn(10, p = 0.1) # generates a 10x10 symmetric matrix, each entry
-has 90\% chance of being 0 and 10\% chance of being 1
+sim_deg_conn(10) # edge exists between 2 nodes with probability 0.5
+sim_deg_conn(10, p = 0.1) # edge exists between 2 nodes with probability 0.1
 
 }

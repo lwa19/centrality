@@ -23,11 +23,7 @@ Returns an n x n adjacency matrix \code{A.mat}
 \code{sim_adjacency} creates a randomly generated adjacency matrix
 }
 \examples{
-sim_adjacency(10, mode = "undirected")   # generates a 10x10 symmetric matrix
-with edges 1 and non-edges 0
-
-sim_adjacency(10, mode = "directed", weight = c(10, 20))  # generates
-a 10x10 matrix (not necessarily symmetric) with edge weights from a uniform
-(10, 20) distribution.
+sim_adjacency(10, mode = "undirected")  # all edge weights 1
+sim_adjacency(10, mode = "directed", weight = c(10, 20))
 
 }
