@@ -18,7 +18,7 @@ Returns a list of \code{dist} and \code{paths}
 \code{dijkstra} calculates the geodesics between two nodes
 }
 \examples{
-
-myfunction(1) # returns 1
+A.mat = sim_adjacency(10)
+dijkstra(A.mat, src = 1)
 
 }

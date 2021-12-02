@@ -18,7 +18,7 @@ Returns the value of \code{c.closeness.std}
 \code{closeness} calculates the closeness centrality of the network
 }
 \examples{
-
-myfunction(1) # returns 1
+A.mat = sim_adjacency(10)
+closeness(A.mat)
 
 }

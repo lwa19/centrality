@@ -6,8 +6,8 @@
 #' @param src A length 1 vector indicating the start node
 #' @return Returns a list of `dist` and `paths`
 #' @examples
-#'
-#' myfunction(1) # returns 1
+#' A.mat = sim_adjacency(10)
+#' dijkstra(A.mat, src = 1)
 #'
 #' @export
 
@@ -20,8 +20,8 @@ dijkstra = function(A.mat, src){
   path = vector(mode = "list", length = n)
 
   while (any(!is.na(vertex))){
-    #print('vertex')
-    #print(vertex)
+    # print('vertex')
+    # print(vertex)
     min.pts = which(dist == min(dist[vertex], na.rm = T))
     if (length(min.pts) > 1){
       unpassed = intersect(vertex, min.pts)
@@ -44,15 +44,18 @@ dijkstra = function(A.mat, src){
       break
     }
     for (ind in v){
-      #print('u')
-      #print(u)
-      #print('ind')
-      #print(ind)
-      #print('dist')
-      #print(dist)
+      # if (is.null(path[[ind]])){
+      #   path[[ind]] = u
+      # }
+      # print('u')
+      # print(u)
+      # print('ind')
+      # print(ind)
+      # print('dist')
+      # print(dist)
       alt = dist[u] + A.mat[u,ind]
-      #print('alt')
-      #print(alt)
+      # print('alt')
+      # print(alt)
       if (alt < dist[ind]){
         dist[ind] = alt
         path[[ind]] = c(path[[ind]], u)
@@ -67,78 +70,64 @@ dijkstra = function(A.mat, src){
 }
 
 
+#' Helper function: count all geodesics passing through jk
+#'
+#' `geodesic.jik` counts geodesics between two nodes
+#'
+#' @param paths A length-`n` list of paths.
+#' @param j Positive integer; node 1
+#' @param k Positive integer; node 2
+#' @param i Positive integer; in-between node. Default is `NULL`
+#' @return A list of two non-negative integers: `jk` is the number of geodesics
+#' between node j and node k; `jik` is the number of number of these geodesics
+#' passing through node i
+#' @examples
+#' A.mat = sim_adjacency(10)
+#' geodesic.jik(A.mat)
+#'
+#' @export
+geodesic.jik = function(paths, j, k, i = NULL){
+  # note path is a length-n list (start node) of length-n lists (end nodes)
+  num.jk = 0
+  if (is.null(i)){
+    num.jik = NULL
+  } else {
+    num.jik = 0
+  }
 
+  # for each node, iterate through all geodesics to other nodes
+  n = length(paths)
+  for (p in 1:n){
+    for (l.ind in 1:n){
+      if (p == j){                           # when j is the starting node
+        if (j %in% paths[[p]][[l.ind]]){
+          num.jk = num.jk + 1
 
+          # count paths through i
+          if (!is.null(i)) {
+            if (i %in% paths[[p]][[l.ind]] &
+                (which(paths[[p]][[l.ind]] == i) < which(paths[[p]][[l.ind]] == k))) {
+              num.jik = num.jik + 1
+            }
+          }
+        }
+      } else {                              # when j is not the starting node
+        if (c(j, k) %in% paths[[p]][[l.ind]]){
+          num.jk = num.jk + 1
 
-
-# Dijkstra's Algorithm (THE CLEARLY NOT WORKING VERSION)
-# (used for geodesic distance calculation in closeness.R and between.R)
-# Maybe it's better to do src-snk instead?
-dijkstra_revise = function(A.mat, src){
-  n = dim(A.mat)[2]
-  vertex = 1:n                                    # vertices to visit
-  dist = rep(Inf, n)
-  dist[src] = 0                                   # distances from src
-  path = vector(mode = "list", length = n)        # geodesics for each src-snk pair
-
-  while (any(!is.na(vertex))){
-    #print('vertex')
-    #print(vertex)
-    min.pts = which(dist == min(dist[vertex], na.rm = T))
-    u = intersect(vertex, min.pts)               # skip passed points; could have multiple u
-    ties = length(u)
-
-    # find the closest neighbor to src
-    v = which(A.mat[u,] != 0, arr.ind = T)
-    if (length(v) == 0){
-      break
-    } else if (length(u) > 1){
-      ## move
-      geodesics = vector(mode = "list", length = num.geodesics)
-      # dist.geodesics = vector(mode = "list", length = num.geodesics)
-      ## end move
-
-      # tie breaker for similar min-distance
-      rows = unique(v[,1])
-      min.geodesics = Inf
-      for (r in 1:ties){
-        # dist.geodesics[[r]] = dist             # update with the current distance array
-        r.v = v[c(v[,1] == 2),2]
-        for (ind in r.v){
-          alt = dist[row[r]] + A.mat[row[r],ind]
-          if (alt < dist[ind] & alt < min.geodesics){
-            min.geodesics = alt
-            geodesics[[r]][[ind]] = c(path[[ind]], row[r])
+          # count paths through i
+          if (!is.null(i)) {
+            if (i %in% paths[[p]][[l.ind]] &
+                (which(paths[[p]][[l.ind]] == j) < which(paths[[p]][[l.ind]] == i)) &
+                (which(paths[[p]][[l.ind]] == i) < which(paths[[p]][[l.ind]] == k)) ) {
+              num.jik = num.jik + 1
+            }
           }
         }
       }
-      dist[ind] = min(dist.geodesics)
-    } else {
-      for (ind in v){
-        #print('u')
-        #print(u)
-        #print('ind')
-        #print(ind)
-        #print('dist')
-        #print(dist)
-        alt = dist[u] + A.mat[u,ind]
-        #print('alt')
-        #print(alt)
-        if (alt < dist[ind]){
-          dist[ind] = alt
-          path[[ind]] = c(path[[ind]], u)
-        }
-    }
-    }
-
-    # remove u from the list of unvisited vertices
-    if (length(u) == 1){
-      vertex[u] = NA
     }
   }
 
-  # return the mean of the distances
-  # return(mean(dist))
-  # return a list of distances and paths:
-  return(list(dist = dist, path = path))
+  return(list(jk = num.jk, jik = num.jik))
 }
+
