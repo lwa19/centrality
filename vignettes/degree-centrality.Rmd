@@ -114,7 +114,7 @@ We can now observe from the plots above that there is a difference between the i
 
 Lastly, we compair the centralities on matrices with low vs. high connectivity: 
 
-```{r, fig.width=8, fig.height=4}
+```{r, fig.width=4, fig.height=4}
 # simulate matrix
 n = 20
 A.mat.sparse = sim_deg_conn(n, p = 0.1)
@@ -134,6 +134,9 @@ adj.mat.s = heatmap.2(plot.A.mat.sparse, dendrogram='none', Rowv=FALSE, Colv=FAL
                     trace='none', key = F, col = as.vector(colors), 
                     main = "Adjacency Matrix (p = 0.1)", colsep = 1:n, rowsep = 1:n, 
                     sepcolor = "grey", sepwidth=c(0.005,0.005))
+image.plot(legend.only=T, zlim=range(0,1), col=colors, legend.mar = 3, 
+           legend.shrink = 0.5, legend.width = 0.5, legend.cex = 0.3)
+
 adj.mat.d = heatmap.2(plot.A.mat.dense, dendrogram='none', Rowv=FALSE, Colv=FALSE,
                     trace='none', key = F, col = as.vector(colors), 
                     main = "Adjacency Matrix (p = 0.9)", colsep = 1:n, rowsep = 1:n, 

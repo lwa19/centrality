@@ -8,6 +8,7 @@
 #'
 #' @import igraph
 #' @import grDevices
+#' @import fields
 #' @param graph A graph object as defined in the `igraph` package
 #' @param centr_score A length-`n` vector of pre-calculated centrality score for each node
 #' @param main A custom string. Title of the plot.
@@ -16,7 +17,7 @@
 #' @return Function has no return value. It makes a cute plot though.
 #' @examples
 #' A.mat = sim_adjacency(10, mode = "undirected")  # symmetric; all edge weights 1
-#' A.graph = graph_from_adjacency_matrix(A.mat, mode = "undirected") # convert to igraph graph object
+#' A.graph = igraph::graph_from_adjacency_matrix(A.mat, mode = "undirected") # convert to igraph graph object
 #' c.deg.und = degree(A.mat, type = "undirected")  # calculate centrality score
 #'
 #' graph_centrality(A.graph, c.deg.und, main = "Degree Centrality (undirected)")
