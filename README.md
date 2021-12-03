@@ -11,7 +11,7 @@ Compute network centrality without generating a graph object
 
 ## Network Centrality: 
 
-The concept of centrality is motivated by identification of “central” or “most important” nodes of a network. One of the most well-known uses of centrality is the PageRank algorithm, designed and made famous by Google founders Larry Page and Sergei Brin. Identifying influential nodes in a network is a fundamental issue due to its wide applications, such as accelerating information diffusion or halting virus spreading. There are four main centrality measures that we will define and compare below.
+The concept of centrality is motivated by identification of “central” or “most important” nodes of a network. One of the most well-known uses of centrality is the PageRank algorithm. Identifying influential nodes in a network is a fundamental issue due to its wide applications, such as accelerating information diffusion or halting virus spreading. There are four main centrality measures that we will define and compare below.
 
 1. Degree centrality (based on degree)
 2. Closeness centrality (based on average distances)
