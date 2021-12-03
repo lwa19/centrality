@@ -144,3 +144,16 @@ adj.mat.d = heatmap.2(plot.A.mat.dense, dendrogram='none', Rowv=FALSE, Colv=FALS
 image.plot(legend.only=T, zlim=range(0,1), col=colors, legend.mar = 3, 
            legend.shrink = 0.5, legend.width = 0.5, legend.cex = 0.3)
 ```
+
+
+```{r, fig.width=10, fig.height=4}
+par(mfrow=c(1,3), mar = c(2, 2, 2, 5.1))
+
+# calculate degree centrality:
+c.deg.sparse = centrality::degree(A.mat.sparse) 
+c.deg.dense = centrality::degree(A.mat.dense)
+
+# plot degree centrality
+graph_centrality(graph.dense, c.deg.dense, main = "Degree Centrality (high connectivity)", legend = F)
+graph_centrality(graph.sparse, c.deg.sparse, main = "Degree Centrality (low connectivity)", legend = T)
+```
