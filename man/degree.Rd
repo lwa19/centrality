@@ -23,7 +23,7 @@ a higher degree centrality indicates the node has more connections to
 other nodes
 }
 \examples{
-A.mat = sim_adjacency(10, directed = T)  # generate digraph
+A.mat = sim_adjacency(10, mode = "directed")  # generate digraph
 degree(A.mat)                            # consider both in and out degrees
 degree(A.mat, type = "indegree")         # only count indegree
 
