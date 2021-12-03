@@ -14,7 +14,7 @@
 #' eigenvect(A.mat.unw)
 #'
 #' A.mat.w = sim_adjacency(10, weight = c(1, 10))
-#' eigenvect(A.mat.w, weight = T)
+#' eigenvect(A.mat.w, weight = TRUE)
 #'
 #' @export
 

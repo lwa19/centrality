@@ -53,8 +53,9 @@ browseVignettes('centrality')
 
 ### Auxiliary Functions:
 -  `sim_adjacency()`: Simulate a generic adjacency matrix; can specify directedness and edge weights. 
--  `sim_deg_conn()`: Simulate an undirected-, unweighted- adjacency matrix; can specify the degree of connectedness
+-  `sim_deg_conn()`: Simulate an undirected-, unweighted- adjacency matrix; can specify the degree of connectedness.
 -  `dijkstra()`: Calculates the geodesics between the source node to all other nodes in the network using Dijkstra's Algorithm.
+-  `graph_centrality()`: Graphs the network overlapped with the specified centrality score. 
 
 ## Acknowledgement and References:
 

@@ -7,6 +7,7 @@
 #' any computation
 #'
 #' @import igraph
+#' @import grDevices
 #' @param graph A graph object as defined in the `igraph` package
 #' @param centr_score A length-`n` vector of pre-calculated centrality score for each node
 #' @param main A custom string. Title of the plot.
