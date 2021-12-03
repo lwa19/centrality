@@ -14,13 +14,17 @@ centrality: "undirected", "indegree", or "outdegree".
 By default, it is "undirected".}
 }
 \value{
-Returns the value of \code{c.degree.std}
+Returns the value of \code{c.degree.std}, a length-\code{n} vector
+of degree centrality scores
 }
 \description{
-\code{degree} calculates the degree centrality of the network
+\code{degree} calculates the standardized degree centrality of the network;
+a higher degree centrality indicates the node has more connections to
+other nodes
 }
 \examples{
-A.mat = sim_adjacency(10)
-degree(A.mat)
+A.mat = sim_adjacency(10, directed = T)  # generate digraph
+degree(A.mat)                            # consider both in and out degrees
+degree(A.mat, type = "indegree")         # only count indegree
 
 }

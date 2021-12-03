@@ -1,17 +1,17 @@
 #' Dijkstra's Algorithm
 #'
-#' `dijkstra` calculates the geodesics between two nodes
+#' `dijkstra` calculates the [geodesics](https://en.wikipedia.org/wiki/Geodesic)
+#' from the source node to all other nodes in the graph
 #'
 #' @param A.mat An n x n adjacency matrix.
-#' @param src A length 1 vector indicating the start node
+#' @param src A positive integer from 1 to `n` indicating the start node index
 #' @return Returns a list of `dist` and `paths`
 #' @examples
-#' A.mat = sim_adjacency(10)
+#' A.mat = sim_adjacency(10, weight = c(1, 5))
 #' dijkstra(A.mat, src = 1)
 #'
 #' @export
 
-# Deprecated all nodes computation
 dijkstra = function(A.mat, src){
   n = dim(A.mat)[2]
   vertex = 1:n
@@ -20,8 +20,6 @@ dijkstra = function(A.mat, src){
   path = vector(mode = "list", length = n)
 
   while (any(!is.na(vertex))){
-    # print('vertex')
-    # print(vertex)
     min.pts = which(dist == min(dist[vertex], na.rm = T))
     if (length(min.pts) > 1){
       unpassed = intersect(vertex, min.pts)
@@ -32,10 +30,6 @@ dijkstra = function(A.mat, src){
     } else {
       u = min.pts
     }
-    # Note here we took the first of all min distances.
-    # This might not be a good idea in terms of checking our algo since there are
-    # better ways to break ties (recursive search), but this is beyond the scope
-    # of this class so I'm not going to bother.
     vertex[u] = NA
 
     # find the closest neighbor to src
@@ -44,18 +38,7 @@ dijkstra = function(A.mat, src){
       break
     }
     for (ind in v){
-      # if (is.null(path[[ind]])){
-      #   path[[ind]] = u
-      # }
-      # print('u')
-      # print(u)
-      # print('ind')
-      # print(ind)
-      # print('dist')
-      # print(dist)
       alt = dist[u] + A.mat[u,ind]
-      # print('alt')
-      # print(alt)
       if (alt < dist[ind]){
         dist[ind] = alt
         path[[ind]] = c(path[[ind]], u)
@@ -63,8 +46,6 @@ dijkstra = function(A.mat, src){
     }
   }
 
-  # return the mean of the distances
-  # return(mean(dist))
   # return a list of distances and paths:
   return(list(dist = dist, path = path))
 }

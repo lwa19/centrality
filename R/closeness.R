@@ -1,19 +1,24 @@
 #' Closeness Centrality Computation
 #'
-#' `closeness` calculates the closeness centrality of the network
+#' `closeness` Closeness centrality measures how many steps is
+#' required to access every other node from a given node.
 #'
 #' @param A.mat An n x n adjacency matrix.
-#' @param weight A boolean indicating if edges are weighted
-#' @return Returns the value of `c.closeness.std`
+#' @param weight A boolean indicating if edges are weighted;
+#' default is FALSE.
+#' @return Returns a length-n vector of `c.closeness.std`
+#' of standardized closeness centrality scores
 #' @examples
-#' A.mat = sim_adjacency(10)
-#' closeness(A.mat)
+#' A.mat.unw = sim_adjacency(10) # edges unweighted
+#' closeness(A.mat.unw)
+#'
+#' A.mat.w = sim_adjacency(10, weight = c(1, 10))
+#' closeness(A.mat.w, weight = T)
 #'
 #' @export
 
-# NEED WORK TO FIT NEW DIJKSTRA'S ALGO
 # "geodesic" distances is calculated by the Dijkstra's Algorithm
-closeness = function(A.mat, weight = T){
+closeness = function(A.mat, weight = F){
   # make graph binary if we don't care about weights:
   if (!weight) {
     A.mat = ifelse(A.mat != 0, 1, 0)

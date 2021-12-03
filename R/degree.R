@@ -1,16 +1,19 @@
 #' Degree Centrality Computation
 #'
-#' `degree` calculates the degree centrality of the network
+#' `degree` calculates the standardized degree centrality of the network;
+#' a higher degree centrality indicates the node has more connections to
+#' other nodes
 #'
 #' @param A.mat An n x n adjacency matrix.
 #' @param type A character string indicating the type of degree
 #' centrality: "undirected", "indegree", or "outdegree".
 #' By default, it is "undirected".
-#'
-#' @return Returns the value of `c.degree.std`
+#' @return Returns the value of `c.degree.std`, a length-`n` vector
+#' of degree centrality scores
 #' @examples
-#' A.mat = sim_adjacency(10)
-#' degree(A.mat)
+#' A.mat = sim_adjacency(10, directed = T)  # generate digraph
+#' degree(A.mat)                            # consider both in and out degrees
+#' degree(A.mat, type = "indegree")         # only count indegree
 #'
 #' @export
 

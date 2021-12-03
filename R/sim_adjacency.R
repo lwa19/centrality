@@ -11,7 +11,7 @@
 #' edge weights. Default is `NULL`, indicating unweighted edges.
 #' @return Returns an n x n adjacency matrix `A.mat`
 #' @examples
-#' sim_adjacency(10, mode = "undirected")  # all edge weights 1
+#' sim_adjacency(10, mode = "undirected")  # symmetric; all edge weights 1
 #' sim_adjacency(10, mode = "directed", weight = c(10, 20))
 #'
 #' @export
@@ -44,8 +44,8 @@ sim_adjacency = function(n, mode = "undirected", weight = NULL){
 
 #' Adjacency matrix simulation -- varying connectedness
 #'
-#' `sim_deg_conn` creates a randomly generated adjacency matrix
-#' with different degree of connectedness
+#' `sim_deg_conn` creates a randomly generated undirected- unweighted-
+#' adjacency matrix with different degree of connectedness
 #'
 #' @param n Positive integer, number of nodes in the network
 #' @param p Positive double, probability of a node having a connection with another.

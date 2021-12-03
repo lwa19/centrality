@@ -4,21 +4,27 @@
 \alias{closeness}
 \title{Closeness Centrality Computation}
 \usage{
-closeness(A.mat, weight = T)
+closeness(A.mat, weight = F)
 }
 \arguments{
 \item{A.mat}{An n x n adjacency matrix.}
 
-\item{weight}{A boolean indicating if edges are weighted}
+\item{weight}{A boolean indicating if edges are weighted;
+default is FALSE.}
 }
 \value{
-Returns the value of \code{c.closeness.std}
+Returns a length-n vector of \code{c.closeness.std}
+of standardized closeness centrality scores
 }
 \description{
-\code{closeness} calculates the closeness centrality of the network
+\code{closeness} Closeness centrality measures how many steps is
+required to access every other node from a given node.
 }
 \examples{
-A.mat = sim_adjacency(10)
-closeness(A.mat)
+A.mat.unw = sim_adjacency(10) # edges unweighted
+closeness(A.mat.unw)
+
+A.mat.w = sim_adjacency(10, weight = c(1, 10))
+closeness(A.mat.w, weight = T)
 
 }

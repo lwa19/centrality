@@ -4,21 +4,28 @@
 \alias{eigenvect}
 \title{Eigenvector Centrality Calculation}
 \usage{
-eigenvect(A.mat, weight = T)
+eigenvect(A.mat, weight = F)
 }
 \arguments{
 \item{A.mat}{An n x n adjacency matrix.}
 
-\item{weight}{A boolean indicating if edges are weighted}
+\item{weight}{A boolean indicating if edges are regarded as weighted;
+default is FALSE}
 }
 \value{
-Returns a vector \code{c.eig.std}
+Returns a length-n vector \code{c.eig.std} of
+standardized eigenvector centrality scores
 }
 \description{
-\code{eigenvect} calculates the Eigenvector Centrality of the Graph
+\code{eigenvect} calculates the Eigenvector Centrality of the Graph;
+a node with high eigenvector centrality is more closely
+connected to other central nodes
 }
 \examples{
-A.mat = sim_adjacency(10)
-eigenvect(A.mat)
+A.mat.unw = sim_adjacency(10) # edges unweighted
+eigenvect(A.mat.unw)
+
+A.mat.w = sim_adjacency(10, weight = c(1, 10))
+eigenvect(A.mat.w, weight = T)
 
 }

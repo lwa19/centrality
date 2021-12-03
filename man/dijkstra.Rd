@@ -9,16 +9,17 @@ dijkstra(A.mat, src)
 \arguments{
 \item{A.mat}{An n x n adjacency matrix.}
 
-\item{src}{A length 1 vector indicating the start node}
+\item{src}{A positive integer from 1 to \code{n} indicating the start node index}
 }
 \value{
 Returns a list of \code{dist} and \code{paths}
 }
 \description{
-\code{dijkstra} calculates the geodesics between two nodes
+\code{dijkstra} calculates the \href{https://en.wikipedia.org/wiki/Geodesic}{geodesics}
+from the source node to all other nodes in the graph
 }
 \examples{
-A.mat = sim_adjacency(10)
+A.mat = sim_adjacency(10, weight = c(1, 5))
 dijkstra(A.mat, src = 1)
 
 }
