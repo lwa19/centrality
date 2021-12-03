@@ -12,8 +12,8 @@
 #' of degree centrality scores
 #' @examples
 #' A.mat = sim_adjacency(10, mode = "directed")  # generate digraph
-#' degree(A.mat)                            # consider both in and out degrees
-#' degree(A.mat, type = "indegree")         # only count indegree
+#' degree(A.mat)                                 # consider both in and out degrees
+#' degree(A.mat, type = "indegree")              # only count indegree
 #'
 #' @export
 
