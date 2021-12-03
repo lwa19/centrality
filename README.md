@@ -5,7 +5,6 @@
 [![test-coverage](https://github.com/lwa19/centrality/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/lwa19/centrality/actions/workflows/test-coverage.yaml)
 <!-- badges: end -->
 
-
 Compute network centrality without generating a graph object
 
 
@@ -37,10 +36,27 @@ library(devtools)
 install_github("lwa19/centrality")
 ```
 
+## Vignettes: Examples, Visualization, and Comparisons
+
+You may access all the vignettes and further analyses by running: 
+
+```
+browseVignettes('centrality')
+```
+
+## Core functions: 
+
+### Centrality Score Calculations: 
+- `degree()`: Calculates standardized degree centrality scores for the network
+- `closeness()`: Calculates standardized closeness centrality scores for the network
+- `eigenvect()`: Calculates standardized eigenvector centrality scores for the network
+
+### Auxiliary Functions:
+-  `sim_adjacency()`: Simulate a generic adjacency matrix; can specify directedness and edge weights. 
+-  `sim_deg_conn()`: Simulate an undirected-, unweighted- adjacency matrix; can specify the degree of connectedness
+-  `dijkstra()`: Calculates the geodesics between the source node to all other nodes in the network using Dijkstra's Algorithm.
 
 ## Acknowledgement and References:
 
-I appreciate the GSI of course MATH 540, Cooper Stansbury, for providing the definition and descriptions of network centrality. I am also grateful for the instructions and help from Professor Hui Jiang and the GSI Jingyi Zhai on R package construction. 
-
-Additional resources used in the completion of the project can be found below: 
+I appreciate the GSI of course MATH 540, Cooper Stansbury, for providing the definition and descriptions of network centrality. I am also grateful for the instruction and help from Professor Hui Jiang and the GSI Jingyi Zhai on R package construction. 
 
