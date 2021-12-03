@@ -28,7 +28,7 @@ degree = function(A.mat, type = 'undirected'){
   } else if (type == 'outdegree'){
     out.mat = A.mat
     out.mat[lower.tri(A.mat, diag = T)] <- 0
-    c = colSums(out.mat)
+    c = rowSums(out.mat)
   } else {
     in.mat = A.mat
     in.mat[upper.tri(A.mat, diag = T)] <- 0

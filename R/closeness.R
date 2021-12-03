@@ -13,7 +13,7 @@
 #' closeness(A.mat.unw)
 #'
 #' A.mat.w = sim_adjacency(10, weight = c(1, 10))
-#' closeness(A.mat.w, weight = T)
+#' closeness(A.mat.w, weight = TRUE)
 #'
 #' @export
 

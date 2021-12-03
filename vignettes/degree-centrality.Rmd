@@ -1,0 +1,171 @@
+---
+title: "Degree centrality example"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Degree centrality example}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+This vignette demonstrates how to use the [`degree` centrality](https://en.wikipedia.org/wiki/Centrality#Degree_centrality) calculation in the `centrality` package on various types of graphs. The simulated graph describes the connectivity of 50 nodes, described by an adjacency matrix $A_{n\times n}$ ($n=20$). 
+We evaluate the influence of each node in the netowrk through computations of its degree centrality measure, and visualize it by plotting the network overlapped with its degree centrality score. We repeat the same process on different types matrices to demonstrate its different features and power at describing the network features. 
+
+Note that for a degree matrix, the weight of the edges do not matter, hence we will only consider an unweighted matrix with different levels of connectedness in our simulations. 
+
+
+```{r setup, message = F}
+library(centrality)
+library('RColorBrewer')
+library(igraph)
+library(gplots)
+library(knitr)
+library(fields)
+set.seed(1)
+```
+
+## Degree Centrality: undirected matrix
+
+Simulate a simple adjacency matrix with unweighted, undirected edges with $n = 50$. 
+
+```{r, fig.width=4, fig.height=4}
+# simulate matrix
+n = 20
+A.mat = sim_adjacency(n)
+A.graph = graph_from_adjacency_matrix(A.mat, mode = "undirected")
+graph <- simplify(A.graph, remove.multiple = F)
+
+# plot adjacency matrix
+par(cex.main=0.8, par(mar = c(1, 2, 2, 6)))
+colors = rep(brewer.pal(9, "Blues"), each = 3)[1:17]
+plot.A.mat = A.mat + diag(rep(2, n))    # emphasize diagonal in plot
+adj.mat = heatmap.2(plot.A.mat, dendrogram='none', Rowv=FALSE, Colv=FALSE, trace='none', 
+          key = F, col = as.vector(colors), main = "Adjacency Matrix", 
+          colsep = 1:n, rowsep = 1:n, sepcolor = "grey", sepwidth=c(0.005,0.005))
+image.plot(legend.only=T, zlim=range(0,1), col=colors, legend.mar = 3, 
+           legend.shrink = 0.5, legend.width = 0.5, legend.cex = 0.3)
+```
+
+After computing the degree centrality measure, we can overlay it on the graph like the following, with points with higher centrality score (higher influence) in a brighter color. 
+
+```{r, fig.width=6, fig.height=4}
+# calculate degree centrality:
+c.deg.std = centrality::degree(A.mat) 
+
+# plot degree centrality
+set.seed(1)
+par(mar = c(2, 2, 2, 5.1))
+V(graph)$order = c.deg.std
+V(graph)$color = rgb((colorRamp(c("blue", "red"))(V(graph)$order))/255)
+plot(graph, vertex.label=1:n, vertex.size=15, main = "Degree Centrality (undirected)")
+image.plot(legend.only=T, zlim=range(c.deg.std), col=sort(V(graph)$color), 
+           legend.mar = 4, legend.cex = 0.5)
+```
+
+We notice both from the visualization of the adjacency matrix and the degree centrality plot that since the edges are generated randomly, there is very little variation in terms of degree centrality (number of nodes they are connected to) for the different nodes. We repeat the same experiment, specifying in and out degree below: 
+
+```{r, fig.width=6, fig.height=4}
+# calculate in-degree centrality:
+c.deg.std = centrality::degree(A.mat, type = "indegree") 
+
+# plot degree centrality
+set.seed(1)
+par(mar = c(2, 2, 2, 5.1))
+V(graph)$order = c.deg.std
+V(graph)$color = rgb((colorRamp(c("blue", "red"))(V(graph)$order))/255)
+plot(graph, vertex.label=1:n, vertex.size=15, main = "Degree Centrality (indegree)")
+image.plot(legend.only=T, zlim=range(c.deg.std), col=sort(V(graph)$color), 
+           legend.mar = 4, legend.cex = 0.5)
+```
+
+
+```{r, fig.width=6, fig.height=4}
+# calculate out-degree centrality:
+c.deg.std = centrality::degree(A.mat, type = "outdegree") 
+
+# plot degree centrality
+set.seed(1)
+par(mar = c(2, 2, 2, 5.1))
+V(graph)$order = c.deg.std
+V(graph)$color = rgb((colorRamp(c("blue", "red"))(V(graph)$order))/255)
+plot(graph, vertex.label=1:n, vertex.size=15, main = "Degree Centrality (outdegree)")
+image.plot(legend.only=T, zlim=range(c.deg.std), col=sort(V(graph)$color), 
+           legend.mar = 4, legend.cex = 0.5)
+```
+We are not surprised to find out that the indegree and outdegree centrality calculations are exactly the same, since our simulated matrix is undirected (thus symmetric). 
+
+## Degree Centrality: directed matrix:
+
+We now repeat the same experiment, but on a directed (therefore not symmetric) matrix: 
+
+
+```{r, fig.width=4, fig.height=4}
+# simulate matrix
+n = 20
+A.mat = sim_adjacency(n, mode = "directed")
+A.graph = graph_from_adjacency_matrix(A.mat, mode = "directed")
+graph <- simplify(A.graph, remove.multiple = F)
+
+# plot adjacency matrix
+par(cex.main=0.8, par(mar = c(1, 2, 2, 6)))
+colors = rep(brewer.pal(9, "Blues"), each = 3)[1:17]
+plot.A.mat = A.mat + diag(rep(2, n))    # emphasize diagonal in plot
+adj.mat = heatmap.2(plot.A.mat, dendrogram='none', Rowv=FALSE, Colv=FALSE, trace='none', 
+          key = F, col = as.vector(colors), main = "Adjacency Matrix", 
+          colsep = 1:n, rowsep = 1:n, sepcolor = "grey", sepwidth=c(0.005,0.005))
+image.plot(legend.only=T, zlim=range(0,1), col=colors, legend.mar = 3, 
+           legend.shrink = 0.5, legend.width = 0.5, legend.cex = 0.3)
+```
+
+After computing the degree centrality measure, we can overlay it on the graph like the following, with points with higher centrality score (higher influence) in a brighter color. 
+
+```{r, fig.width=6, fig.height=4}
+# calculate degree centrality:
+c.deg.std = centrality::degree(A.mat) 
+
+# plot degree centrality
+set.seed(1)
+par(mar = c(2, 2, 2, 5.1))
+V(graph)$order = c.deg.std
+V(graph)$color = rgb((colorRamp(c("blue", "red"))(V(graph)$order))/255)
+plot(graph, vertex.label=1:n, vertex.size=15, main = "Degree Centrality (undirected)")
+image.plot(legend.only=T, zlim=range(c.deg.std), col=sort(V(graph)$color), 
+           legend.mar = 4, legend.cex = 0.5)
+```
+
+```{r, fig.width=6, fig.height=4}
+# calculate in-degree centrality:
+c.deg.std = centrality::degree(A.mat, type = "indegree") 
+
+# plot degree centrality
+set.seed(1)
+par(mar = c(2, 2, 2, 5.1))
+V(graph)$order = c.deg.std
+V(graph)$color = rgb((colorRamp(c("blue", "red"))(V(graph)$order))/255)
+plot(graph, vertex.label=1:n, vertex.size=15, main = "Degree Centrality (indegree)")
+image.plot(legend.only=T, zlim=range(c.deg.std), col=sort(V(graph)$color), 
+           legend.mar = 4, legend.cex = 0.5)
+```
+
+
+```{r, fig.width=6, fig.height=4}
+# calculate out-degree centrality:
+c.deg.std = centrality::degree(A.mat, type = "outdegree") 
+
+# plot degree centrality
+set.seed(1)
+par(mar = c(2, 2, 2, 5.1))
+V(graph)$order = c.deg.std
+V(graph)$color = rgb((colorRamp(c("blue", "red"))(V(graph)$order))/255)
+plot(graph, vertex.label=1:n, vertex.size=15, main = "Degree Centrality (outdegree)")
+image.plot(legend.only=T, zlim=range(c.deg.std), col=sort(V(graph)$color), 
+           legend.mar = 4, legend.cex = 0.5)
+```
+Even though now we can see the difference between the indegree, outdegree, and undirectional centralities, it is still very unclear how to interpret the measures in a very straighforward way from these figures. Therefore we proceed to 
