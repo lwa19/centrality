@@ -133,7 +133,7 @@ graph_centrality(graph.dense, c.deg.dense,
                  main = "Degree Centrality (centrality)", legend = T)
 
 ## -----------------------------------------------------------------------------
-n = 10000
+n = 1000
 mat.A = sim_deg_conn(n, 0.9)
 print("igraph run time: ")
 system.time({

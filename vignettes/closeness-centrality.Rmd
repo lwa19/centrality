@@ -146,7 +146,7 @@ system.time({
 ```
 
 
-We can see that even with a not-so-large matrix ($n = 500$ as opposed to $n = 10,000$ example we used in the degree centrality computation), we already see a large increase run-time for the *centrality* package function. This is very likely due to the Dijkstra's algorithm that is an inherent part of the closeness centrality computation, that needs to iterate through every two node pairs to find the geodesics between all nodes in the network. To my knowledge, *igraph* is implemented in C++ and has been optimized and established across many platforms. So I will admit defeat on this one. 
+We can see that even with a not-so-large matrix ($n = 500$ as opposed to $n = 1,000$ example we used in the degree centrality computation), we already see a large increase run-time for the *centrality* package function. This is very likely due to the Dijkstra's algorithm that is an inherent part of the closeness centrality computation, that needs to iterate through every two node pairs to find the geodesics between all nodes in the network. To my knowledge, *igraph* is implemented in C++ and has been optimized and established across many platforms. So I will admit defeat on this one. 
 
 ## Session information
 

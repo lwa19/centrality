@@ -189,12 +189,12 @@ graph_centrality(graph.dense, c.deg.dense,
 
 ### Speed
 
-We will time the speed of overall speed of computing the degree centrality scores of *igraph* and *centrality*. Since the aim of the package is to avoid the tedious graph conversion, we will be including *igraph*'s graph conversion into its total run time. We will also demonstrate their run time differences on large adjacency matrices ($n = 10000$) to see a larger difference. 
+We will time the speed of overall speed of computing the degree centrality scores of *igraph* and *centrality*. Since the aim of the package is to avoid the tedious graph conversion, we will be including *igraph*'s graph conversion into its total run time. We will also demonstrate their run time differences on large adjacency matrices ($n = 1000$) to see a larger difference. 
 
 1. undirected- unweighted- dense matrix
 
 ```{r}
-n = 10000
+n = 1000
 mat.A = sim_deg_conn(n, 0.9)
 print("igraph run time: ")
 system.time({
