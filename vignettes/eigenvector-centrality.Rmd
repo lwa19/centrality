@@ -1,8 +1,8 @@
 ---
-title: "eigenvector-centrality"
+title: "Eigenvector centrality example"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{eigenvector-centrality}
+  %\VignetteIndexEntry{Eigenvector centrality example}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,6 +14,145 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+This vignette demonstrates how to use the [`eigenvector` centrality](https://en.wikipedia.org/wiki/Eigenvector_centrality) calculation in the `centrality` package on various types of graphs. The simulated graph describes the connectivity of 20 nodes, described by an adjacency matrix $A_{n\times n}$ ($n=20$). 
+
+We evaluate the influence of each node in the netowrk through computations of its eigenvector centrality measure, and visualize it by plotting the network overlapped with its eigenvector centrality score. We repeat the same process on different types matrices to demonstrate its different features and power at describing the network features. 
+
+Note that eigenvector centrality aims at identifying cliques among nodes in the network, therefore we will once again focus our examples on graphs of different levels of connectedness
+
+
+```{r setup, message = F, warning=FALSE}
 library(centrality)
+library('RColorBrewer')
+library(igraph)
+library(gplots)
+library(knitr)
+library(fields)
+set.seed(1)
+```
+
+## Eigenvector Centrality: 
+
+We will run through a simple example here to demonstrate the eigenvector centrality calculation: 
+
+```{r, fig.width=4, fig.height=4}
+# simulate matrix
+n = 20
+set.seed(1)
+A.mat = sim_deg_conn(n, 0.9)
+B.mat = sim_deg_conn(n, 0.2)
+
+# convert to graph objects
+A.graph = graph_from_adjacency_matrix(A.mat, mode = "undirected")
+B.graph = graph_from_adjacency_matrix(B.mat, mode = "undirected")
+
+# plot adjacency matrix
+par(cex.main=0.8, par(mar = c(1, 2, 2, 6)))
+colors = rep(brewer.pal(9, "Blues"), each = 3)[1:17]
+plot.A.mat = A.mat + diag(rep(2, n))    # emphasize diagonal in plot
+plot.B.mat = B.mat + diag(rep(2, n))
+adj.mat = heatmap.2(plot.A.mat, dendrogram='none', Rowv=FALSE, Colv=FALSE, trace='none', 
+          key = F, col = as.vector(colors), main = "High Connectedness", 
+          colsep = 1:n, rowsep = 1:n, sepcolor = "grey", sepwidth=c(0.005,0.005))
+adj.mat = heatmap.2(plot.B.mat, dendrogram='none', Rowv=FALSE, Colv=FALSE, trace='none', 
+          key = F, col = as.vector(colors), main = "Low Connectedness", 
+          colsep = 1:n, rowsep = 1:n, sepcolor = "grey", sepwidth=c(0.005,0.005))
+image.plot(legend.only=T, zlim=range(0,1), col=colors, legend.mar = 3, 
+           legend.shrink = 0.5, legend.width = 0.5, legend.cex = 0.3)
+```
+
+```{r, fig.width=12, fig.height=4}
+par(mfrow=c(1,2), mar = c(2, 2, 2, 6))
+
+# calculate eigenvector centrality:
+c.eig.A = centrality::eigenvect(A.mat)
+c.eig.A = c.eig.A/max(c.eig.A)
+c.eig.B = centrality::eigenvect(B.mat) 
+c.eig.B = c.eig.B/max(c.eig.B)
+
+# plot eigenvector centrality
+graph_centrality(A.graph, c.eig.A, main = "highly connected graph", legend = T)
+graph_centrality(B.graph, c.eig.B, main = "not highly connected graph", legend = T)
+```
+We can clearly see that nodes involved in a highly connected "clump" appears to have a higher eigenvector centrality score compared to the more isolated nodes. 
+
+## Performance Comparison
+
+Here we compare the performance of package *centrality* to the centrality calculations in package *igraph*. 
+
+### Accuracy:
+
+We will test for the accuracy of the centrality package by visualizing the results using *igraph* output vs. the results using *centrality* output. The analysis will be performed on the two matrices simulated in the section immediately above.
+
+```{r, fig.width=10, fig.height=4}
+# calculate eigenvector centrality using igraph:
+igraph.A = centr_eigen(A.graph, normalized = T)
+ci.eig.A = igraph.A$vector / max(igraph.A$vector)
+igraph.B = centr_eigen(B.graph, normalized = T)
+ci.eig.B = igraph.B$vector / max(igraph.B$vector)
+
+# plot: 'centrality' vs 'igraph' for highly connected network: 
+par(mfrow=c(1,2), mar = c(2, 2, 2, 5.1))
+graph_centrality(A.graph, ci.eig.A, 
+                 main = "Eigenvector Centrality (igraph)", legend = T)
+graph_centrality(A.graph, c.eig.A/max(c.eig.A),
+                 main = "Eigenvector Centrality (centrality)", legend = T)
+
+# plot: 'centrality' vs 'igraph' for low connectivity network: 
+par(mfrow=c(1,2), mar = c(2, 2, 2, 5.1))
+graph_centrality(B.graph, ci.eig.B, 
+                 main = "Eigenvector Centrality (igraph)", legend = T)
+graph_centrality(B.graph, c.eig.B/max(c.eig.B), 
+                 main = "Eigenvector Centrality (centrality)", legend = T)
+```
+
+### Speed
+
+We will time the speed of overall speed of computing the eigenvector centrality scores of *igraph* and *centrality*. Since the aim of the package is to avoid the tedious graph conversion, we will be including *igraph*'s graph conversion into its total run time. We will also demonstrate their run time differences on large adjacency matrices ($n = 1000$) to see a larger difference. 
+
+1. dense matrix
+
+```{r}
+n = 1000
+mat.A = sim_deg_conn(n, 0.9)
+print("igraph run time: ")
+system.time({
+  graph.A = graph_from_adjacency_matrix(mat.A, mode = "undirected")
+  igraph.eig = centr_eigen(graph.A, normalized = T)
+  ci.eig = igraph.eig$vector / max(igraph.eig$vector)
+})
+print("centrality run time:" )
+system.time({
+  c.eig = centrality::eigenvect(mat.A)
+  c.eig = c.eig/max(c.eig)
+})
+```
+
+2. sparse matrix: 
+
+```{r}
+mat.A = sim_deg_conn(n, 0.2)
+print("igraph run time: ")
+system.time({
+  graph.A = graph_from_adjacency_matrix(mat.A, mode = "undirected")
+  igraph.eig = centr_eigen(graph.A, normalized = T)
+  ci.eig = igraph.eig$vector / max(igraph.eig$vector)
+})
+print("centrality run time:" )
+system.time({
+  c.eig = centrality::eigenvect(mat.A)
+  c.eig = c.eig/max(c.eig)
+})
+```
+
+In our version of the eigenvector centrality calculation, we used the brute force method to compute the eigenvectors. Since *igraph* is implemented in C++, it is unsurprising that it can achieve a faster run time when large matrix operations are involved. 
+
+
+## Session information
+
+Here are some details about the computing environment, including the
+versions of R, and the R packages, used to generate these results.
+
+```{r}
+sessionInfo()
 ```
