@@ -33,7 +33,7 @@ any computation
 }
 \examples{
 A.mat = sim_adjacency(10, mode = "undirected")  # symmetric; all edge weights 1
-A.graph = igraph::graph_from_adjacency_matrix(A.mat, mode = "undirected") # convert to igraph graph object
+A.graph = igraph::graph_from_adjacency_matrix(A.mat, mode = "undirected")
 c.deg.und = degree(A.mat, type = "undirected")  # calculate centrality score
 
 graph_centrality(A.graph, c.deg.und, main = "Degree Centrality (undirected)")
