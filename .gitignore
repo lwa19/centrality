@@ -38,8 +38,6 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 .Rproj.user
-inst/doc
-/doc/
 /Meta/
 .DS_Store
 count_lines
