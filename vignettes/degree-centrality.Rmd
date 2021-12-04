@@ -15,7 +15,8 @@ knitr::opts_chunk$set(
 ```
 
 
-This vignette demonstrates how to use the [`degree` centrality](https://en.wikipedia.org/wiki/Centrality#Degree_centrality) calculation in the `centrality` package on various types of graphs. The simulated graph describes the connectivity of 50 nodes, described by an adjacency matrix $A_{n\times n}$ ($n=20$). 
+This vignette demonstrates how to use the [`degree` centrality](https://en.wikipedia.org/wiki/Centrality#Degree_centrality) calculation in the `centrality` package on various types of graphs. The simulated graph describes the connectivity of 20 nodes, described by an adjacency matrix $A_{n\times n}$ ($n=20$). 
+
 We evaluate the influence of each node in the netowrk through computations of its degree centrality measure, and visualize it by plotting the network overlapped with its degree centrality score. We repeat the same process on different types matrices to demonstrate its different features and power at describing the network features. 
 
 Note that for a degree matrix, the weight of the edges do not matter, hence we will only consider an unweighted matrix with different levels of connectedness in our simulations. 

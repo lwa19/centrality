@@ -2,7 +2,7 @@
 #'
 #' `sim_adjacency` creates a randomly generated adjacency matrix
 #'
-#' @import stats
+#' @importFrom stats runif
 #' @param n Positive integer, number of nodes in the network
 #' @param mode A character string, indicating directedness of the matrix.
 #' Default is "undirected", where edges do not have direction (therefore adjacency
@@ -51,7 +51,7 @@ sim_adjacency = function(n, mode = "undirected", weight = NULL){
 #' @param p Positive double, probability of a node having a connection with another.
 #' Default is `0.5`.
 #' @return Returns an n x n adjacency matrix `A.mat`
-#' @import stats
+#' @importFrom stats rbinom
 #' @examples
 #' sim_deg_conn(10) # edge exists between 2 nodes with probability 0.5
 #' sim_deg_conn(10, p = 0.1) # edge exists between 2 nodes with probability 0.1

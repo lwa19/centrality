@@ -1,0 +1,36 @@
+---
+title: "closeness-centrality"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{closeness-centrality}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This vignette demonstrates how to use the [`closeness` centrality](https://en.wikipedia.org/wiki/Closeness_centrality) calculation in the `centrality` package on various types of graphs. The simulated graph describes the connectivity of 20 nodes, described by an adjacency matrix $A_{n\times n}$ ($n=20$). 
+
+We evaluate the influence of each node in the netowrk through computations of its closeness centrality measure, and visualize it by plotting the network overlapped with its closeness centrality score. We repeat the same process on different types matrices to demonstrate its different features and power at describing the network features. 
+
+Note that closeness centrality is only applicable to , the weight of the edges do not matter, hence we will only consider an unweighted matrix with different levels of connectedness in our simulations. 
+
+
+```{r setup, message = F, warning=FALSE}
+library(centrality)
+library('RColorBrewer')
+library(igraph)
+library(gplots)
+library(knitr)
+library(fields)
+set.seed(1)
+```
+
+## Degree Centrality: undirected matrix
+
+Simulate a simple adjacency matrix with unweighted, undirected edges with $n = 20$. 
