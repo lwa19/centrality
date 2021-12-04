@@ -43,7 +43,6 @@ closeness = function(A.mat, weight = F){
   }
 
   # compute closeness centrality:
-  # di = sapply(1:n, FUN = dijkstra, A.mat = A.mat)
   mean.dist = rep(NA, n)
   for (id in 1:n){
     mean.dist[id] = mean(dijkstra(A.mat, id)$dist)

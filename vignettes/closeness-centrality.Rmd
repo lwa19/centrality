@@ -18,7 +18,7 @@ This vignette demonstrates how to use the [`closeness` centrality](https://en.wi
 
 We evaluate the influence of each node in the netowrk through computations of its closeness centrality measure, and visualize it by plotting the network overlapped with its closeness centrality score. We repeat the same process on different types matrices to demonstrate its different features and power at describing the network features. 
 
-Note that closeness centrality is only applicable to , the weight of the edges do not matter, hence we will only consider an unweighted matrix with different levels of connectedness in our simulations. 
+Note that closeness centrality is only applicable to connected graphs, therefore we will not be exploring its application on sparse matrices. Instead, our focus will be on the impact of directedness and edge weights on node centrality. 
 
 
 ```{r setup, message = F, warning=FALSE}
@@ -31,6 +31,49 @@ library(fields)
 set.seed(1)
 ```
 
-## Degree Centrality: undirected matrix
+## Closeness Centrality: undirected matrix
 
-Simulate a simple adjacency matrix with unweighted, undirected edges with $n = 20$. 
+We will calculate three different types of closeness centrality measure: 1) large range of edge weights; 2) small range of edge weights. Note that we do not demonstrate an example for unweighted matrices in the closeness centrality measures because the result is uninteresting, even though the function allows for this situation. Note that weight ranges used in the two simulations do not include zero, which guarantees the connectedness of our graph. 
+
+```{r, fig.width=4, fig.height=4}
+# simulate matrix
+n = 20
+set.seed(1)
+lg.mat = sim_adjacency(n, weight = c(1,100))
+set.seed(1)
+sm.mat = sim_adjacency(n, weight = c(1,2))
+
+# convert to graph objects
+lg.graph = graph_from_adjacency_matrix(lg.mat, mode = "undirected", weighted = TRUE)
+sm.graph = graph_from_adjacency_matrix(sm.mat, mode = "undirected", weighted = TRUE)
+
+# plot adjacency matrix
+par(cex.main=0.8, par(mar = c(1, 2, 2, 6)))
+colors = rep(brewer.pal(9, "Blues"), each = 3)[1:17]
+plot.lg.mat = lg.mat + diag(rep(110, n))    # emphasize diagonal in plot
+plot.sm.mat = sm.mat + diag(rep(2.5, n))
+adj.mat = heatmap.2(plot.lg.mat, dendrogram='none', Rowv=FALSE, Colv=FALSE, trace='none', 
+          key = F, col = as.vector(colors), main = "large weight variation", 
+          colsep = 1:n, rowsep = 1:n, sepcolor = "grey", sepwidth=c(0.005,0.005))
+adj.mat = heatmap.2(plot.sm.mat, dendrogram='none', Rowv=FALSE, Colv=FALSE, trace='none', 
+          key = F, col = as.vector(colors), main = "small weight variation", 
+          colsep = 1:n, rowsep = 1:n, sepcolor = "grey", sepwidth=c(0.005,0.005))
+image.plot(legend.only=T, zlim=range(0,1), col=colors, legend.mar = 3, 
+           legend.shrink = 0.5, legend.width = 0.5, legend.cex = 0.3)
+```
+
+
+```{r, fig.width=12, fig.height=4}
+par(mfrow=c(1,2), mar = c(2, 2, 2, 6))
+
+# calculate degree centrality:
+c.clo.lg = centrality::closeness(lg.mat, weight = T) 
+c.clo.sm = centrality::closeness(sm.mat, weight = T) 
+
+# plot degree centrality
+graph_centrality(sm.graph, c.clo.sm, main = "small weight variation", legend = T)
+graph_centrality(lg.graph, c.clo.lg, main = "large weight variation", legend = T)
+```
+We notice both from the visualization of the adjacency matrix and the degree centrality plot that since the edges are generated randomly, there is very little variation in terms of degree centrality (number of nodes they are connected to) for the different nodes. We subsequently calculated the indegree and outdegree centralities separately. We are not surprised to find out that the indegree and outdegree centrality calculations are exactly the same, since our simulated matrix is undirected (thus symmetric). 
+
+
