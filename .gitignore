@@ -41,3 +41,4 @@ vignettes/*.pdf
 /Meta/
 .DS_Store
 count_lines
+/doc/

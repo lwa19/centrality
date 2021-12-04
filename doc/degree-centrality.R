@@ -6,11 +6,6 @@ knitr::opts_chunk$set(
 
 ## ----setup, message = F, warning=FALSE----------------------------------------
 library(centrality)
-library('RColorBrewer')
-library(igraph)
-library(gplots)
-library(knitr)
-library(fields)
 set.seed(1)
 
 ## ---- fig.width=4, fig.height=4-----------------------------------------------
