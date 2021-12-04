@@ -1,8 +1,8 @@
 ---
-title: "closeness-centrality"
+title: "Closeness centrality example"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{closeness-centrality}
+  %\VignetteIndexEntry{Closeness centrality example}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -31,32 +31,31 @@ library(fields)
 set.seed(1)
 ```
 
-## Closeness Centrality: undirected matrix
+## Closeness Centrality: 
 
-We will calculate three different types of closeness centrality measure: 1) large range of edge weights; 2) small range of edge weights. Note that we do not demonstrate an example for unweighted matrices in the closeness centrality measures because the result is uninteresting, even though the function allows for this situation. Note that weight ranges used in the two simulations do not include zero, which guarantees the connectedness of our graph. 
+We will run through a simple example here to demonstrate the closeness centrality calculation: 
 
 ```{r, fig.width=4, fig.height=4}
 # simulate matrix
 n = 20
 set.seed(1)
-lg.mat = sim_adjacency(n, weight = c(1,100))
-set.seed(1)
-sm.mat = sim_adjacency(n, weight = c(1,2))
+A.mat = sim_deg_conn(n, 0.9)
+B.mat = sim_deg_conn(n, 0.1)
 
 # convert to graph objects
-lg.graph = graph_from_adjacency_matrix(lg.mat, mode = "undirected", weighted = TRUE)
-sm.graph = graph_from_adjacency_matrix(sm.mat, mode = "undirected", weighted = TRUE)
+A.graph = graph_from_adjacency_matrix(A.mat, mode = "undirected")
+B.graph = graph_from_adjacency_matrix(B.mat, mode = "undirected")
 
 # plot adjacency matrix
 par(cex.main=0.8, par(mar = c(1, 2, 2, 6)))
 colors = rep(brewer.pal(9, "Blues"), each = 3)[1:17]
-plot.lg.mat = lg.mat + diag(rep(110, n))    # emphasize diagonal in plot
-plot.sm.mat = sm.mat + diag(rep(2.5, n))
-adj.mat = heatmap.2(plot.lg.mat, dendrogram='none', Rowv=FALSE, Colv=FALSE, trace='none', 
-          key = F, col = as.vector(colors), main = "large weight variation", 
+plot.A.mat = A.mat + diag(rep(2, n))    # emphasize diagonal in plot
+plot.B.mat = B.mat + diag(rep(2, n))
+adj.mat = heatmap.2(plot.A.mat, dendrogram='none', Rowv=FALSE, Colv=FALSE, trace='none', 
+          key = F, col = as.vector(colors), main = "High Connectedness", 
           colsep = 1:n, rowsep = 1:n, sepcolor = "grey", sepwidth=c(0.005,0.005))
-adj.mat = heatmap.2(plot.sm.mat, dendrogram='none', Rowv=FALSE, Colv=FALSE, trace='none', 
-          key = F, col = as.vector(colors), main = "small weight variation", 
+adj.mat = heatmap.2(plot.B.mat, dendrogram='none', Rowv=FALSE, Colv=FALSE, trace='none', 
+          key = F, col = as.vector(colors), main = "Low Connectedness", 
           colsep = 1:n, rowsep = 1:n, sepcolor = "grey", sepwidth=c(0.005,0.005))
 image.plot(legend.only=T, zlim=range(0,1), col=colors, legend.mar = 3, 
            legend.shrink = 0.5, legend.width = 0.5, legend.cex = 0.3)
@@ -66,14 +65,95 @@ image.plot(legend.only=T, zlim=range(0,1), col=colors, legend.mar = 3,
 ```{r, fig.width=12, fig.height=4}
 par(mfrow=c(1,2), mar = c(2, 2, 2, 6))
 
-# calculate degree centrality:
-c.clo.lg = centrality::closeness(lg.mat, weight = T) 
-c.clo.sm = centrality::closeness(sm.mat, weight = T) 
+# calculate closeness centrality:
+c.clo.A = centrality::closeness(A.mat)
+c.clo.A = c.clo.A/max(c.clo.A)
+c.clo.B = centrality::closeness(B.mat) 
+c.clo.B = c.clo.B/max(c.clo.B)
 
-# plot degree centrality
-graph_centrality(sm.graph, c.clo.sm, main = "small weight variation", legend = T)
-graph_centrality(lg.graph, c.clo.lg, main = "large weight variation", legend = T)
+# plot closeness centrality
+graph_centrality(A.graph, c.clo.A, main = "highly connected graph", legend = T)
+graph_centrality(B.graph, c.clo.B, main = "not highly connected graph", legend = T)
 ```
-We notice both from the visualization of the adjacency matrix and the degree centrality plot that since the edges are generated randomly, there is very little variation in terms of degree centrality (number of nodes they are connected to) for the different nodes. We subsequently calculated the indegree and outdegree centralities separately. We are not surprised to find out that the indegree and outdegree centrality calculations are exactly the same, since our simulated matrix is undirected (thus symmetric). 
 
+## Performance Comparison
+
+Here we compare the performance of package *centrality* to the centrality calculations in package *igraph*. 
+
+### Accuracy:
+
+We will test for the accuracy of the centrality package by visualizing the results using *igraph* output vs. the results using *centrality* output. The analysis will be performed on the two matrices simulated in the section immediately above.
+
+```{r, fig.width=10, fig.height=4}
+# calculate closeness centrality using igraph:
+igraph.A = centr_clo(A.graph, normalized = T)
+ci.clo.A = igraph.A$res / max(igraph.A$res)
+igraph.B = centr_clo(B.graph, normalized = T)
+ci.clo.B = igraph.B$res / max(igraph.B$res)
+
+# plot: 'centrality' vs 'igraph' for highly connected network: 
+par(mfrow=c(1,2), mar = c(2, 2, 2, 5.1))
+graph_centrality(A.graph, ci.clo.A, 
+                 main = "Closeness Centrality (igraph)", legend = T)
+graph_centrality(A.graph, c.clo.A/max(c.clo.A),
+                 main = "Closeness Centrality (centrality)", legend = T)
+
+# plot: 'centrality' vs 'igraph' for low connectivity network: 
+par(mfrow=c(1,2), mar = c(2, 2, 2, 5.1))
+graph_centrality(B.graph, ci.clo.B, 
+                 main = "Closeness Centrality (igraph)", legend = T)
+graph_centrality(B.graph, c.clo.B/max(c.clo.B), 
+                 main = "Closeness Centrality (centrality)", legend = T)
+```
+
+### Speed
+
+We will time the speed of overall speed of computing the closeness centrality scores of *igraph* and *centrality*. Since the aim of the package is to avoid the tedious graph conversion, we will be including *igraph*'s graph conversion into its total run time. We will also demonstrate their run time differences on large adjacency matrices ($n = 500$) to see a larger difference. 
+
+1. dense matrix
+
+```{r}
+n = 500
+mat.A = sim_deg_conn(n, 0.9)
+print("igraph run time: ")
+system.time({
+  graph.A = graph_from_adjacency_matrix(mat.A, mode = "undirected")
+  igraph.clo = centr_clo(graph.A, normalized = T)
+  ci.clo = igraph.clo$res / max(igraph.clo$res)
+})
+print("centrality run time:" )
+system.time({
+  c.clo = centrality::closeness(mat.A)
+  c.clo = c.clo/max(c.clo)
+})
+```
+
+2. sparse matrix: 
+
+```{r}
+mat.A = sim_deg_conn(n, 0.1)
+print("igraph run time: ")
+system.time({
+  graph.A = graph_from_adjacency_matrix(mat.A, mode = "undirected")
+  igraph.clo = centr_clo(graph.A, normalized = T)
+  ci.clo = igraph.clo$res / max(igraph.clo$res)
+})
+print("centrality run time:" )
+system.time({
+  c.clo = centrality::closeness(mat.A)
+  c.clo = c.clo/max(c.clo)
+})
+```
+
+
+We can see that even with a not-so-large matrix ($n = 500$ as opposed to $n = 10,000$ example we used in the degree centrality computation), we already see a large increase run-time for the *centrality* package function. This is very likely due to the Dijkstra's algorithm that is an inherent part of the closeness centrality computation, that needs to iterate through every two node pairs to find the geodesics between all nodes in the network. To my knowledge, *igraph* is implemented in C++ and has been optimized and established across many platforms. So I will admit defeat on this one. 
+
+## Session information
+
+Here are some details about the computing environment, including the
+versions of R, and the R packages, used to generate these results.
+
+```{r}
+sessionInfo()
+```
 

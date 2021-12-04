@@ -4,13 +4,10 @@
 \alias{closeness}
 \title{Closeness Centrality Computation}
 \usage{
-closeness(A.mat, weight = F)
+closeness(A.mat)
 }
 \arguments{
 \item{A.mat}{An n x n adjacency matrix.}
-
-\item{weight}{A boolean indicating if edges are weighted;
-default is FALSE.}
 }
 \value{
 Returns a length-n vector of \code{c.closeness.std}
@@ -21,10 +18,7 @@ of standardized closeness centrality scores
 required to access every other node from a given node.
 }
 \examples{
-A.mat.unw = sim_adjacency(10) # edges unweighted
-closeness(A.mat.unw)
-
 A.mat.w = sim_adjacency(10, weight = c(1, 10))
-closeness(A.mat.w, weight = TRUE)
+closeness(A.mat.w)
 
 }

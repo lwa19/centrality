@@ -194,20 +194,20 @@ graph_centrality(graph.dense, c.deg.dense,
 
 ### Speed
 
-We will time the speed of overall speed of computing the degree centrality scores of *igraph* and *centrality*. Since the aim of the package is to avoid the tedious graph conversion, we will be including *igraph*'s graph conversion into its total run time. We will also demonstrate their run time differences on large adjacency matrices ($n = 1000$) to see a larger difference. 
+We will time the speed of overall speed of computing the degree centrality scores of *igraph* and *centrality*. Since the aim of the package is to avoid the tedious graph conversion, we will be including *igraph*'s graph conversion into its total run time. We will also demonstrate their run time differences on large adjacency matrices ($n = 10000$) to see a larger difference. 
 
 1. undirected- unweighted- dense matrix
 
 ```{r}
-n = 1000
+n = 10000
 mat.A = sim_deg_conn(n, 0.9)
-print("centrality run time: ")
+print("igraph run time: ")
 system.time({
   graph.A = graph_from_adjacency_matrix(mat.A, mode = "undirected")
   igraph.deg = centr_degree(graph.A, normalized = T, loops = F)
   ci.deg = igraph.deg$res / max(igraph.deg$res)
 })
-print("igraph run time:" )
+print("centrality run time:" )
 system.time({
   c.deg = centrality::degree(mat.A)
 })
@@ -219,13 +219,13 @@ system.time({
 
 ```{r}
 mat.B = sim_deg_conn(n, 0.1)
-print("centrality run time: ")
+print("igraph run time: ")
 system.time({
   graph.B = graph_from_adjacency_matrix(mat.B, mode = "undirected")
   igraph.deg = centr_degree(graph.B, normalized = T, loops = F)
   ci.deg = igraph.deg$res / max(igraph.deg$res)
 })
-print("igraph run time:" )
+print("centrality run time:" )
 system.time({
   c.deg = centrality::degree(mat.B)
 })
@@ -237,13 +237,13 @@ system.time({
 
 ```{r}
 mat.C = sim_adjacency(n, mode = "directed")
-print("centrality run time: ")
+print("igraph run time: ")
 system.time({
   graph.C = graph_from_adjacency_matrix(mat.C, mode = "directed")
   igraph.deg = centr_degree(graph.C, normalized = T, loops = F)
   ci.deg = igraph.deg$res / max(igraph.deg$res)
 })
-print("igraph run time:" )
+print("centrality run time:" )
 system.time({
   c.deg = centrality::degree(mat.C)
 })
@@ -253,13 +253,13 @@ system.time({
 
 ```{r}
 mat.D = sim_adjacency(n, mode = "directed", weight = c(1, 100))
-print("centrality run time: ")
+print("igraph run time: ")
 system.time({
   graph.D = graph_from_adjacency_matrix(mat.D, mode = "directed", weighted = T)
   igraph.deg = centr_degree(graph.D, normalized = T, loops = F)
   ci.deg = igraph.deg$res / max(igraph.deg$res)
 })
-print("igraph run time:" )
+print("centrality run time:" )
 system.time({
   c.deg = centrality::degree(mat.D)
 })
@@ -267,4 +267,12 @@ system.time({
 
 We notice that in most cases, the *centrality* package achieves a superior run time compared to *igraph*, potentially by avoiding the graph conversion step. However, we notice that *igraph* computation achieves a better run time when the adjacency matrix is sparse. I suspect some fancy data structures (sparse matrix, etc.) are involved. 
 
+## Session information
+
+Here are some details about the computing environment, including the
+versions of R, and the R packages, used to generate these results.
+
+```{r}
+sessionInfo()
+```
 
