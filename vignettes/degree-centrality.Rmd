@@ -22,7 +22,7 @@ We evaluate the influence of each node in the netowrk through computations of it
 Note that for a degree matrix, the weight of the edges do not matter, hence we will only consider an unweighted matrix with different levels of connectedness in our simulations. 
 
 
-```{r setup, message = F, warning=FALSE}
+```{r setup, message = F, warning=FALSE, eval=FALSE}
 library(centrality)
 library('RColorBrewer')
 library(igraph)

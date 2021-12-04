@@ -27,6 +27,8 @@ Imports:
     knitr,
     fields
 Suggests: 
+    testthat (>= 3.0.0),
     rmarkdown
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
+Config/testthat/edition: 3
