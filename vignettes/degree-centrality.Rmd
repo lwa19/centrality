@@ -24,11 +24,6 @@ Note that for a degree matrix, the weight of the edges do not matter, hence we w
 
 ```{r setup, message = F, warning=FALSE}
 library(centrality)
-library('RColorBrewer')
-library(igraph)
-library(gplots)
-library(knitr)
-library(fields)
 set.seed(1)
 ```
 
