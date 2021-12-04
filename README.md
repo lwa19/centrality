@@ -33,7 +33,7 @@ Note that I decided not to include betweeness centrality here simply due to the 
 
 ```
 library(devtools)
-install_github("lwa19/centrality")
+install_github("lwa19/centrality", build_vignettes = TRUE)
 ```
 
 ## Vignettes: Examples, Visualization, and Comparisons
