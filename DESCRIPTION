@@ -29,6 +29,6 @@ Imports:
 Suggests: 
     testthat (>= 3.0.0),
     rmarkdown
-VignetteBuilder: rmarkdown, knitr
+VignetteBuilder: rmarkdown
 Roxygen: list(markdown = TRUE)
 Config/testthat/edition: 3
